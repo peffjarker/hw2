@@ -4,8 +4,8 @@ using namespace std;
 class Count_Pixels {
 public:
   bool valid(int i, int j, vector<vector<int>> &image) {
-    if (i > 0 && i < image.size()) {
-      if (j > 0 && j < image[0].size()) {
+    if (i >= 0 && i < image.size()) {
+      if (j >= 0 && j < image[0].size()) {
         return true;
       }
     }
