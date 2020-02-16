@@ -8,6 +8,7 @@ and white image
 */
 #include <iomanip>
 #include <iostream>
+#include <map>
 #include <omp.h>
 #include <vector>
 using namespace std;
@@ -30,6 +31,33 @@ public:
   */
   void process_regions(vector<vector<int>> &image,
                        vector<vector<int>> &pixel_count) {
+<<<<<<< HEAD
+#pragma omp parallel
+    {
+      for (int i = 0; i < image.size(); i++) {
+        for (int j = 0; j < image[0].size(); j++) {
+          int up;
+          int left;
+          int diag;
+          if (valid(i, j - 1, image)) {
+            left = pixel_count[i][j - 1];
+          } else {
+            left = 0;
+          }
+          if (valid(i - 1, j, image)) {
+            up = pixel_count[i - 1][j];
+          } else {
+            up = 0;
+          }
+          if (valid(i - 1, j - 1, image)) {
+            diag = pixel_count[i - 1][j - 1];
+          } else {
+            diag = 0;
+          }
+          if (valid(i, j, image)) {
+            pixel_count[i][j] = image[i][j] + left + up - diag;
+          }
+=======
 #pragma omp parallel for schedule(dynamic, 400)
     for (int i = 0; i < image.size(); i++) {
       for (int j = 0; j < image[0].size(); j++) {
@@ -54,6 +82,7 @@ public:
         if (valid(i, j, image)) {
           int total = image[i][j] + left + up - diag;
           pixel_count[i][j] = total;
+>>>>>>> 4d7efb68e1e1e755d0c641c01454b02976f130bb
         }
       }
     }
@@ -69,7 +98,7 @@ public:
       vector<vector<int>> &image,
       vector<pair<pair<int, int>, pair<int, int>>> &regions) {
     vector<vector<int>> pixel_count;
-    pixel_count.resize(image.size() * omp_get_num_threads());
+    pixel_count.resize(image.size());
 #pragma omp parallel for
     for (int i = 0; i < pixel_count.size(); ++i) {
       pixel_count[i].resize(image[i].size());
