@@ -37,23 +37,23 @@ public:
         int left;
         int diag;
         if (valid(i, j - 1, image)) {
-          left = pixel_count[i * omp_get_thread_num()][j - 1];
+          left = pixel_count[i][j - 1];
         } else {
           left = 0;
         }
         if (valid(i - 1, j, image)) {
-          up = pixel_count[i - 1 * omp_get_thread_num()][j];
+          up = pixel_count[i - 1][j];
         } else {
           up = 0;
         }
         if (valid(i - 1, j - 1, image)) {
-          diag = pixel_count[i - 1 * omp_get_thread_num()][j - 1];
+          diag = pixel_count[i - 1][j - 1];
         } else {
           diag = 0;
         }
         if (valid(i, j, image)) {
-          int total = image[i * omp_get_thread_num()][j] + left + up - diag;
-          pixel_count[i * omp_get_thread_num()][j] = total;
+          int total = image[i][j] + left + up - diag;
+          pixel_count[i][j] = total;
         }
       }
     }
