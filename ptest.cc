@@ -26,6 +26,7 @@
 using namespace std;
 // You write this part !!!
 #include "p.cc"
+
 //
 // Read pairs of points (e.g., (a,b) (c,d)).
 // Store them in the variable "boxes"
