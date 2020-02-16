@@ -31,9 +31,13 @@ public:
   */
   void process_regions(vector<vector<int>> &image,
                        vector<vector<int>> &pixel_count) {
-<<<<<<< HEAD
 #pragma omp parallel
     {
+      vector<vector<int>> pixel_copy;
+      pixel_copy.resize(pixel_count.size());
+      for (int i = 0; i < pixel_copy.size(); ++i) {
+        pixel_copy[i].resize(pixel_count[i].size());
+      }
       for (int i = 0; i < image.size(); i++) {
         for (int j = 0; j < image[0].size(); j++) {
           int up;
@@ -55,34 +59,16 @@ public:
             diag = 0;
           }
           if (valid(i, j, image)) {
-            pixel_count[i][j] = image[i][j] + left + up - diag;
+            pixel_copy[i][j] = image[i][j] + left + up - diag;
           }
-=======
-#pragma omp parallel for schedule(dynamic, 400)
-    for (int i = 0; i < image.size(); i++) {
-      for (int j = 0; j < image[0].size(); j++) {
-        int up;
-        int left;
-        int diag;
-        if (valid(i, j - 1, image)) {
-          left = pixel_count[i][j - 1];
-        } else {
-          left = 0;
         }
-        if (valid(i - 1, j, image)) {
-          up = pixel_count[i - 1][j];
-        } else {
-          up = 0;
-        }
-        if (valid(i - 1, j - 1, image)) {
-          diag = pixel_count[i - 1][j - 1];
-        } else {
-          diag = 0;
-        }
-        if (valid(i, j, image)) {
-          int total = image[i][j] + left + up - diag;
-          pixel_count[i][j] = total;
->>>>>>> 4d7efb68e1e1e755d0c641c01454b02976f130bb
+      }
+      for (int i = 0; i < pixel_copy.size(); ++i) {
+        for (int k = 0; k < pixel_copy[i].size(); ++k) {
+          if (pixel_copy[i][k] != 0) {
+#pragma omp critical
+            pixel_copy[i][k] = pixel_copy[i][k];
+          }
         }
       }
     }
