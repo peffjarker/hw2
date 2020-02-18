@@ -3,7 +3,6 @@
 using namespace std;
 
 int main() {
-  omp_set_num_threads(2);
   int a[1000] = {0};
   for (int i = 0; i < 1000; ++i) {
     a[i] = i;
